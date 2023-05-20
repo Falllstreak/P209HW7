@@ -24,3 +24,14 @@
     text-align: center;
     font-size: 40px;
 } */
+.oneHike{
+    color:#2ace77;
+}
+#breakdownStyle{
+    color: #2ace77;    
+    text-align: left;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding: 1%;
+    border: solid;
+}
