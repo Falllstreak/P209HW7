@@ -1,3 +1,33 @@
+
+
+
+var fs = require("fs");
+
+let fileManager  = {
+  read: function() {
+    var rawdata = fs.readFileSync('objectdata.json');
+    let goodData = JSON.parse(rawdata);
+    HikeArray = goodData;
+  },
+
+  write: function() {
+    let data = JSON.stringify(HikeArray);
+    fs.writeFileSync('objectdata.json', data);
+  },
+
+  validData: function() {
+    var rawdata = fs.readFileSync('objectdata.json');
+    console.log(rawdata.length);
+    if(rawdata.length < 1) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+};
+
+
 let HikeArray = [];
 
 let HikeObject = function(pTrail, pWhere, pWhen, pTOD, pDistance, pElevation, pTime, pNotes) {  
@@ -12,9 +42,16 @@ let HikeObject = function(pTrail, pWhere, pWhen, pTOD, pDistance, pElevation, pT
   this.ID = Math.random().toString(16).slice(5)
 }
 
-HikeArray.push(new HikeObject("Hike Mountain", "Washington", "2023-05-01", "Evening", "8 Miles", "345 Feet", "3 hours", "This felt so much longer than it was."));
-HikeArray.push(new HikeObject("Hike Hill", "Colorado", "2020-08-22", "Morning", "12 Miles", "570 Feet", "6 hours", "I don't recommend mornings for this one."));
-HikeArray.push(new HikeObject("Hike View", "Oregon", "2018-07-09", "Night", "3 Miles", "200 Feet", "1 hours", "Easiest hike ever!"));
+if(!fileManager.validData()) {
+	HikeArray.push(new HikeObject("Hike Mountain", "Washington", "2023-05-01", "Evening", "8 Miles", "345 Feet", "3 hours", "This felt 	so much longer than it was."));
+	HikeArray.push(new HikeObject("Hike Hill", "Colorado", "2020-08-22", "Morning", "12 Miles", "570 Feet", "6 hours", "I don't 	recommend mornings for this one."));
+	HikeArray.push(new HikeObject("Hike View", "Oregon", "2018-07-09", "Night", "3 Miles", "200 Feet", "1 hours", "Easiest hike 	ever!"));
+	fileManager.write();
+}
+else {
+	fileManager.read();
+}
+
 
 let selectedTOD = "";
 
@@ -23,7 +60,6 @@ let selectedTOD = "";
 
 // runs  when dom is loaded
 document.addEventListener("DOMContentLoaded", function(event) {
-
   createList();
 
   document.getElementById("buttonAdd").addEventListener("click", function() {
